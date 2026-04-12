@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 const db = mysql.createConnection({
   host: '127.0.0.1:3306',
@@ -17,6 +17,3 @@ db.connect((err) => {
 
 module.exports = db;
 
-function isRegistered() {
-  
-}

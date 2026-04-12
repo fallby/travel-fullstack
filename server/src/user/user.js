@@ -1,32 +1,89 @@
-const { Connection } = require("mysql2");
+import db from '../config/db.js';
+// const mysql = require("mysql2/promise");
+const bcrypt = require('bcrypt');
 
-function registration() {
-  // передаю данные полученные с формы
-  // проверяю правильно ли введены на фронте
-  // тут проверяю зарегистрирован ли пользователь
-  // если да, вывожу где написано что пользователь зарегистрирован
-  // если нет, вызываю функцию с запросом в бд и регистрирую
-
-  
-}
-
-application.post('/api/login',(req, res) => {
+application.post('/api/registration', async (req, res) => {
     const { name, surname, email, password } = req.body;
-    if (getUserByEmail(email) == ) {
-        return res.json({ success: false, error: 'Пользователь уже зарегистрирован' }); //ошибки вывести в отдельный файл по номерам
-    } else {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await registration(name, surname, email, hashedPassword);
-        return res.json({ success: true, error: 'Пользователь зарегистрирован' });
-    }
-  })
 
-function getUserByEmail(email) {
+    try { 
+        const user = await getUserByEmail(email); 
+
+        if (user.length > 0) { 
+            return res.json({ 
+                success: false, 
+                error: 'Пользователь уже зарегистрирован' 
+            }); 
+        }
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await createUser(name, surname, email, hashedPassword); 
+
+        return res.json({ 
+            success: true, 
+            message: 'Пользователь зарегистрирован' 
+        }); 
+
+    } catch (err) { 
+        console.log(err); 
+        res.status(500).json({ 
+            error: 'Ошибка сервера' 
+        }); 
+    }
+});
+
+
+application.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try { 
+        const users = await getUserByEmail(email); 
+
+        if (users.length === 0) { 
+            return res.json({ 
+                success: false, 
+                error: 'Пользователь не найден' 
+            }); 
+        }
+        
+        const user = users[0];
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.json({
+                success: false,
+                error: 'Неверный пароль'
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: 'Вход выполнен',
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name
+            }
+        });
+
+    } catch (err) { 
+        console.log(err); 
+        res.status(500).json({ 
+            error: 'Ошибка сервера' 
+        }); 
+    }
+});
+
+
+
+async function getUserByEmail(email) {
     const query = 'SELECT * FROM users WHERE email=?';
-    return Connection.query(query, [email]);
+    const [rows] = await db.query(query, [email]);
+    return rows;
 }
 
-function registration(name, surname, email, password) {
+function createUser(name, surname, email, password) {
     const query = 'INSERT INTO users(name, surname, email, password) VALUES(?,?,?,?)';
-    return Connection.query(query, [name, surname, email, password]);
+    return db.query(query, [name, surname, email, password]);
 }
