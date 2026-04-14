@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Countries from "./pages/Countries";
-import Tours from "./pages/Tours";
-import Login from "./pages/Login";
+import Home from "./pages/Home.jsx";
+import Countries from "./pages/Countries.jsx";
+import Tours from "./pages/Tours.jsx";
+import Login from "./pages/Login.jsx";
 
-import Nav from "./components/Nav";
+import Nav from "./components/Nav.jsx";
 import './App.css'
 
 function App() {
