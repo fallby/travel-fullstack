@@ -1,10 +1,10 @@
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-  host: '127.0.0.1:3306',
-  user: 'root',       
-  password: '1111', 
-  database: 'travel_db' 
+  host: '127.0.0.1',
+  user: 'root',
+  password: '1111',
+  database: 'travel_db'
 });
 
 db.connect((err) => {
@@ -16,4 +16,3 @@ db.connect((err) => {
 });
 
 module.exports = db;
-

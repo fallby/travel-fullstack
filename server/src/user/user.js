@@ -1,8 +1,10 @@
-import db from '../config/db.js';
-// const mysql = require("mysql2/promise");
+const express = require('express');
+const router = express.Router();
+
+const db = require('../config/db.js');
 const bcrypt = require('bcrypt');
 
-application.post('/api/registration', async (req, res) => {
+router.post('/api/registration', async (req, res) => {
     const { name, surname, email, password } = req.body;
 
     try { 
@@ -33,7 +35,7 @@ application.post('/api/registration', async (req, res) => {
 });
 
 
-application.post('/api/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
 
     try { 
