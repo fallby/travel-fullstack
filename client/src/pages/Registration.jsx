@@ -1,7 +1,38 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Registration() {
-    // проверка введенных данных - имя, фамилия, емаил и пароль
+    let [form, setForm] = useState(
+        {
+            name: '',
+            surname: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
+    );
+    let [error, setError] = useState(
+        {
+            name: "Введите имя",
+            surname: "Введите фамилию",
+            email: ["Введите email", "Некорректный email"],
+            password: ["Пароль должен содержать цифры", "Пароль должен содержать буквы", "Пароль должен содержать символы", "Длина пароля должна быть не менее 8 символов"],
+            confirmPassword: ["Подтвердите пароль", "Пароли не совпадают"]
+        }
+    );
+
+    function onChange(e) {
+        setForm.name(e.target.value);
+    }
+
+    function validate(form) {
+
+    }
+
+    async function registration(params) {
+
+    }
+
 
     let inputFieldName = document.getElementsByClassName("name_input");
     if (inputFieldName.value === "") {
@@ -33,7 +64,7 @@ export default function Registration() {
     }
 
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
-    
+
     let inputFieldPassword = document.getElementsByClassName("password_input");
     if (inputFieldPassword.value === "") {
         let div = document.createElement('div');
@@ -63,8 +94,8 @@ export default function Registration() {
 
     return (
         <div>
-            <form action="" method="post" target="self">
-                <input type="text" className="name" class="name_input" required placeholder="Введите имя" maxlength="45"></input>
+            <form action="" method="post" target="self" onSubmit={handleSubmit}>
+                <input type="text" className="name" class="name_input" required placeholder="Введите имя" maxlength="45" value={name} onChange={onChange}></input>
                 <input type="text" className="surname" class="surname_input" required placeholder="Введите фамилию" maxlength="45"></input>
                 <input type="email" className="email_input" required placeholder="Введите email"></input>
                 <input type="password" className="password_input" required placeholder="Введите пароль"></input>
