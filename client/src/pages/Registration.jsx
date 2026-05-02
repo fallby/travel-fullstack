@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Registration() {
+    let navigate = useNavigate();
+    let [error, setError] = useState({});
+    let [serverError, setServerError] = useState('');
     let [form, setForm] = useState(
         {
             name: '',
@@ -11,96 +14,111 @@ export default function Registration() {
             confirmPassword: ''
         }
     );
-    let [error, setError] = useState(
-        {
-            name: "Введите имя",
-            surname: "Введите фамилию",
-            email: ["Введите email", "Некорректный email"],
-            password: ["Пароль должен содержать цифры", "Пароль должен содержать буквы", "Пароль должен содержать символы", "Длина пароля должна быть не менее 8 символов"],
-            confirmPassword: ["Подтвердите пароль", "Пароли не совпадают"]
-        }
-    );
 
-    function onChange(e) {
-        setForm.name(e.target.value);
+    function handleChange(event) {
+        let value = event.target.value;
+        let fieldName = event.target.name;
+        let newForm = { ...form };
+        newForm[fieldName] = value;
+        setForm(newForm);
+
+        let newErrors = { ...error };
+        if (newErrors[fieldName]) {
+            newErrors[fieldName] = '';
+        }
+        setError(newErrors);
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        let errors = validate(form);
+
+        if (Object.keys(errors).length !== 0) {
+            setError(errors);
+        } else {
+            registration(form);
+        }
     }
 
     function validate(form) {
+        let errors = {};
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordPatternNumbers = /\d/;
+        const passwordPatternLetters = /[a-zA-Z]/;
+        const passwordPatternSymbols = /\W/;
 
+        if (form.name === '') {
+            errors.name = "Введите имя.";
+        }
+
+        if (form.surname === '') {
+            errors.surname = "Введите фамилию.";
+        }
+
+        if (form.email === '') {
+            errors.email = "Введите email.";
+        } else if (!emailPattern.test(form.email)) {
+            errors.email = "Некорректный email.";
+        }
+
+        if (form.password === '') {
+            errors.password = "Введите пароль.";
+        } else if (form.password.length < 8) {
+            errors.password = "Длина пароля должна быть не менее 8 символов.";
+        } else if (passwordPatternNumbers.test(form.password) === false) {
+            errors.password = "Пароль должен содержать цифры от 0-9.";
+        } else if (passwordPatternLetters.test(form.password) === false) {
+            errors.password = "Пароль должен содержать буквы a-z или A-Z.";
+        } else if (passwordPatternSymbols.test(form.password) === false) {
+            errors.password = "Пароль должен содержать любой специальный символ.";
+        }
+
+        if (form.confirmPassword === '') {
+            errors.confirmPassword = "Повторите пароль.";
+        } else if (form.password !== form.confirmPassword) {
+            errors.confirmPassword = "Пароли не совпадают.";
+        }
+
+        return errors;
     }
 
-    async function registration(params) {
+    async function registration(form) {
+        const { confirmPassword, ...data } = form;
+        let response = await fetch('/api/registration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
 
-    }
-
-
-    let inputFieldName = document.getElementsByClassName("name_input");
-    if (inputFieldName.value === "") {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Введите имя";
-        //сделать как красный текст под полем
-    }
-
-    let inputFieldSurname = document.getElementsByClassName("surname_input");
-    if (inputFieldSurname.value === "") {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Введите фамилию";
-    }
-
-    let inputFieldEmail = document.getElementsByClassName("email_input");
-    if (inputFieldEmail.value === "") {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Введите email";
-    }
-    let emailField = document.getElementById("myEmail");
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(emailField.value)) {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Некорректный email";
-    }
-
-    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
-
-    let inputFieldPassword = document.getElementsByClassName("password_input");
-    if (inputFieldPassword.value === "") {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Введите пароль";
-    }
-
-    const passwordPatternNumbers = /^(?=.*\d)$/;
-    if (passwordPatternNumbers.test(inputFieldPassword) === false) {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Пароль должен содержать цифру";
-    }
-
-    if (inputFieldPassword.value < 8) {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Длина пароля должна быть не менее 8 символов";
-    }
-
-    let confirmPasswordInput = document.getElementsByClassName("confirm_password_input");
-    if (inputFieldPassword.value !== confirmPasswordInput.value) {
-        let div = document.createElement('div');
-        div.className = "error_message";
-        div.innerHTML = "Пароли не совпадают";
+        if (!response.ok) {
+            setServerError(`HTTP error! Status: ${response.status}`);
+            return;
+        } else {
+            setServerError('');
+            const responseData = await response.json();
+            const token = responseData.access_token;
+            localStorage.setItem('token', token);
+            navigate("/tours");
+        }
     }
 
     return (
         <div>
-            <form action="" method="post" target="self" onSubmit={handleSubmit}>
-                <input type="text" className="name" class="name_input" required placeholder="Введите имя" maxlength="45" value={name} onChange={onChange}></input>
-                <input type="text" className="surname" class="surname_input" required placeholder="Введите фамилию" maxlength="45"></input>
-                <input type="email" className="email_input" required placeholder="Введите email"></input>
-                <input type="password" className="password_input" required placeholder="Введите пароль"></input>
-                <input type="password" className="confirm_password_input" required placeholder="Повторите пароль"></input>
-                <Link to="/" class="registration_button">Зарегистрироваться</Link>
+            {serverError && <div>{serverError}</div>}
+            <form method="post" target="self" noValidate onSubmit={handleSubmit}>
+                <input type="text" className="name" name="name" placeholder="Введите имя" onChange={handleChange}></input>
+                {error.name && <div>{error.name}</div>}
+                <input type="text" className="surname" name="surname" placeholder="Введите фамилию" onChange={handleChange}></input>
+                {error.surname && <div>{error.surname}</div>}
+                <input type="email" className="email_input" name="email" placeholder="Введите email" onChange={handleChange}></input>
+                {error.email && <div>{error.email}</div>}
+                <input type="password" className="password_input" name="password" placeholder="Введите пароль" onChange={handleChange}></input>
+                {error.password && <div>{error.password}</div>}
+                <input type="password" className="confirm_password_input" name="confirmPassword" placeholder="Повторите пароль" onChange={handleChange}></input>
+                {error.confirmPassword && <div>{error.confirmPassword}</div>}
+                <button type="submit">Зарегистрироваться</button>
                 <p>Уже зарегистрированы? <Link to="/login">Войти</Link></p>
             </form>
         </div>

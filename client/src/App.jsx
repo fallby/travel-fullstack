@@ -7,6 +7,7 @@ import Login from "./pages/Login.jsx";
 
 import Nav from "./components/Nav.jsx";
 import './App.css'
+import Registration from './pages/Registration.jsx';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -24,6 +25,7 @@ function App() {
         <Route path="/countries" element={<Countries />}/>
         <Route path="/tours" element={<Tours />}/>
         <Route path="/login" element={<Login />}/>
+        <Route path="/registration" element={<Registration />}/>
       </Routes>
     </BrowserRouter>
   )
