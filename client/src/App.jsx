@@ -5,7 +5,7 @@ import Countries from "./pages/Countries.jsx";
 import Tours from "./pages/Tours.jsx";
 import Login from "./pages/Login.jsx";
 
-import Nav from "./components/Nav.jsx";
+import Nav from "./components/Navigation.jsx";
 import './App.css'
 import Registration from './pages/Registration.jsx';
 
