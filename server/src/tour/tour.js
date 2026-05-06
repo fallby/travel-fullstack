@@ -65,5 +65,3 @@ async function getAllInformationAboutTours() {
     const [rows] = await db.query(query);
     return rows;
 }
-
-

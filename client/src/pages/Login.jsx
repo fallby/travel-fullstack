@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
     let navigate = useNavigate();
-    let [error, setError] = useState({});
-    let [serverError, setServerError] = useState('');
-    let [form, setForm] = useState(
+    const [error, setError] = useState({});
+    const [serverError, setServerError] = useState('');
+    const [form, setForm] = useState(
         {
             email: '',
             password: '',
