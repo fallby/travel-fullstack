@@ -1,20 +1,22 @@
-export default function TourCard() {
-    
-
+export default function TourCard({tour}) {
+    // let tour = {
+    //     tourName: '',
+    //     cityName: '',
+    //     startDate: '',
+    //     endDate: '',
+    //     duration: '',
+    //     price: '',
+    //     description: '',
+    // };
     return (
         <div className="tourCard">
             <img src="" alt="" />
-            <h3>Название тура</h3>
-            <div>город</div>
-            <div>Дата</div>
-            <div>цена</div>
-            <div>описание</div>
+            <h3>{tour.tourName}</h3>
+            <div>{tour.cityName}</div>
+            <div>{tour.startDate} - {tour.endDate}</div>
+            <div>{tour.duration}</div>
+            <div>{tour.price}</div>
+            <button>Узнать подробнее</button>
         </div>
     )
 }
-
-// картинка
-// название
-// город
-// даты
-// описание?

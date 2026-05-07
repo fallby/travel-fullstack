@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
 import TourCard from "../components/TourCard";
+import Navigation from "../components/Navigation"; 
 
 export default function Tours() {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [tours, setTours] = useState([]);
-    // const [tours, setTours] = useState({
-    //     tourName: '',
-    //     cityName: '',
-    //     startDate: '',
-    //     endDate: '',
-    //     duration: '',
-    //     price: '',
-    //     description: '',
-    // });
 
     useEffect(() => {
         async function fetchData() {
