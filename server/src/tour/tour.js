@@ -1,6 +1,5 @@
 import express from 'express';
 import db from '../config/db.js';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -24,10 +23,10 @@ router.get('/api/tours', async (req, res) => {
     }
 })
 
-router.get('/api/tours:id', async (req, res) => {
+router.get('/api/tours/:id', async (req, res) => {
 
     try {
-        const tour = await getTourById();
+        const tour = await getTourById(req.params.id);
 
         return res.json({
             success: true,
@@ -56,13 +55,15 @@ async function getAllTours() {
 }
 
 async function getAllInformationAboutTours() {
-    const query = 'SELECT c.name AS cityName, t.name AS tourName, t.description, t.duration, td.start_date AS startDate, td.end_date AS endDate, td.price, td.total_slots, td.booked_slots FROM cities c INNER JOIN tours t ON c.id=t.city_id INNER JOIN tour_dates td ON t.id=td.tour_id WHERE t.is_active=1';
+    const query = 'SELECT SELECT t.id, c.name AS cityName, t.name AS tourName, t.description, t.duration_days, td.start_date AS startDate, td.end_date AS endDate, td.price, td.total_slots, td.booked_slots FROM cities c INNER JOIN tours t ON c.id=t.city_id INNER JOIN tour_dates td ON t.id=td.tour_id WHERE t.is_active=1';
     const [rows] = await db.query(query);
     return rows;
 }
 
 async function getTourById(id) {
     const query = 'SELECT * FROM tours WHERE id=?';
-    const [rows] = await db.query(query, id);
+    const [rows] = await db.query(query, [id]);
     return rows;
 }
+
+export default router;
