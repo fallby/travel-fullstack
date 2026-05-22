@@ -10,12 +10,12 @@ export default function TourCard({tour}) {
     // };
     return (
         <div className="tourCard">
-            <img src="" alt="" />
+            {/* <img src="" alt="" /> */}
             <h3>{tour.tourName}</h3>
             <div>{tour.cityName}</div>
-            <div>{tour.startDate} - {tour.endDate}</div>
-            <div>{tour.duration}</div>
-            <div>{tour.price}</div>
+            <div>{tour.durationDays}</div>
+            <div>{tour.minPrice}</div>
+            <div>{tour.description}</div>
             <button>Узнать подробнее</button>
         </div>
     )

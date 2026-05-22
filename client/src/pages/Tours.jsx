@@ -11,7 +11,7 @@ export default function Tours() {
         async function fetchData() {
             try {
                 setIsLoading(true);
-
+                
                 const response = await fetch('/api/tours');
 
                 if (!response.ok) {
@@ -19,7 +19,7 @@ export default function Tours() {
                 }
 
                 const data = await response.json();
-
+                console.log(data);
                 setTours(data.tours);
                 setError(null);
             } catch (err) {
@@ -34,6 +34,7 @@ export default function Tours() {
     // https://max-gabov.ru/urok-14-useeffect-dlya-raboty-s-api-v-react/
 
     if (isLoading) {
+        console.log(tours);
         return <div>Загружаем список туров...</div>;
     }
 
@@ -43,9 +44,6 @@ export default function Tours() {
 
     return (
         <div>
-            <header>
-                <Navigation/>
-            </header>
             <main>
                 {tours.map((tour) => ( 
                     <TourCard key={tour.id} tour={tour}/>

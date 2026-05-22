@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/api/tours', async (req, res) => {
 
     try {
-        const tours = await getAllInformationAboutTours();
+        const tours = await getInformationAboutTours();
 
         return res.json({
             success: true,
@@ -54,8 +54,14 @@ async function getAllTours() {
     return rows;
 }
 
+async function getInformationAboutTours() {
+    const query = 'SELECT t.id, t.name, t.description, t.duration_days, c.name AS cityName, MIN(td.price) AS minPrice FROM tours t JOIN cities c ON c.id = t.city_id LEFT JOIN tour_dates td ON td.tour_id = t.id WHERE t.is_active = 1 GROUP BY t.id';
+    const [rows] = await db.query(query);
+    return rows;
+}
+
 async function getAllInformationAboutTours() {
-    const query = 'SELECT SELECT t.id, c.name AS cityName, t.name AS tourName, t.description, t.duration_days, td.start_date AS startDate, td.end_date AS endDate, td.price, td.total_slots, td.booked_slots FROM cities c INNER JOIN tours t ON c.id=t.city_id INNER JOIN tour_dates td ON t.id=td.tour_id WHERE t.is_active=1';
+    const query = 'SELECT t.id, c.name AS cityName, t.name AS tourName, t.description, t.duration_days, td.start_date AS startDate, td.end_date AS endDate, td.price, td.total_slots, td.booked_slots FROM cities c INNER JOIN tours t ON c.id=t.city_id INNER JOIN tour_dates td ON t.id=td.tour_id WHERE t.is_active=1';
     const [rows] = await db.query(query);
     return rows;
 }

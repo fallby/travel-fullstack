@@ -11,6 +11,7 @@ app.use(express.json());
 
 // подключаем роуты
 app.use(userRoutes);
+app.use(tourRoutes);
 
 app.get('/api/test', (req, res) => {
   res.json({ message: "API работает" });
