@@ -1,13 +1,6 @@
-export default function TourCard({tour}) {
-    // let tour = {
-    //     tourName: '',
-    //     cityName: '',
-    //     startDate: '',
-    //     endDate: '',
-    //     duration: '',
-    //     price: '',
-    //     description: '',
-    // };
+import { Link } from "react-router-dom";
+
+export default function TourCard({ tour }) {
     return (
         <div className="tourCard">
             {/* <img src="" alt="" /> */}
@@ -16,7 +9,9 @@ export default function TourCard({tour}) {
             <div>{tour.durationDays}</div>
             <div>{tour.minPrice}</div>
             <div>{tour.description}</div>
-            <button>Узнать подробнее</button>
+            <Link to={`/tours/${tour.id}`}>
+                <button>Узнать подробнее</button>
+            </Link>
         </div>
     )
 }

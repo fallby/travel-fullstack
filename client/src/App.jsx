@@ -4,6 +4,7 @@ import Home from "./pages/Home.jsx";
 import Countries from "./pages/Countries.jsx";
 import Tours from "./pages/Tours.jsx";
 import Login from "./pages/Login.jsx";
+import Tour from "./pages/Tour.jsx";
 
 import Nav from "./components/Navigation.jsx";
 import './App.css'
@@ -26,6 +27,7 @@ function App() {
         <Route path="/tours" element={<Tours />}/>
         <Route path="/login" element={<Login />}/>
         <Route path="/registration" element={<Registration />}/>
+        <Route path="/tours/:id" element={<Tour />} />
       </Routes>
     </BrowserRouter>
   )
