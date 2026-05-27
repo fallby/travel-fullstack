@@ -71,8 +71,14 @@ export default function Login() {
             setServerError('');
             const responseData = await response.json();
             const token = responseData.access_token;
+            const role = responseData.user.role;
             localStorage.setItem('token', token);
-            navigate("/tours");
+            localStorage.setItem('role', role);
+            if (role === "admin") {
+                navigate("/admin");
+            } else {
+                navigate("/tours");
+            }
         }
     }
 

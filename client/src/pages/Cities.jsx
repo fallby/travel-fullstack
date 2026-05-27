@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import TourCard from "../components/TourCard";
-
-export default function Tours() {
+import CityCard from "../components/CityCard";
+// добавить на страницу города доступные туры в этот город
+export default function Cities() {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [tours, setTours] = useState([]);
+    const [cities, setCities] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
             try {
                 setIsLoading(true);
                 
-                const response = await fetch('/api/tours');
+                const response = await fetch('/api/cities');
 
                 if (!response.ok) {
                     throw new Error(`Ошибка HTTP: статус ${response.status}`);
@@ -19,7 +19,7 @@ export default function Tours() {
 
                 const data = await response.json();
                 console.log(data);
-                setTours(data.tours);
+                setCities(data.cities);
                 setError(null);
             } catch (err) {
                 setError(err.message);
@@ -30,11 +30,9 @@ export default function Tours() {
         fetchData();
 
     }, [])
-    // https://max-gabov.ru/urok-14-useeffect-dlya-raboty-s-api-v-react/
 
     if (isLoading) {
-        console.log(tours);
-        return <div>Загружаем список туров...</div>;
+        return <div>Загружаем список городов...</div>;
     }
 
     if (error) {
@@ -44,8 +42,8 @@ export default function Tours() {
     return (
         <div>
             <main>
-                {tours.map((tour) => ( 
-                    <TourCard key={tour.id} tour={tour}/>
+                {cities.map((city) => ( 
+                    <CityCard key={city.id} city={city}/>
                 ))}
             </main>
         </div>

@@ -12,7 +12,7 @@ export default function Nav() {
     return (
         <nav>
             <Link to="/">Главная</Link>
-            <Link to="/countries">Страны</Link>
+            <Link to="/cities">Города</Link>
             <Link to="/tours">Туры</Link>
             <div>
                 {isAuth ? (<button onClick={logout}>Выйти</button>) : (<Link to="/login">Войти</Link>)}

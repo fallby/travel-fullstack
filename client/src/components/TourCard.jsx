@@ -8,7 +8,7 @@ export default function TourCard({ tour }) {
             <div>{tour.cityName}</div>
             <div>{tour.durationDays}</div>
             <div>{tour.minPrice}</div>
-            <div>{tour.description}</div>
+            <div>{tour.description.slice(0, 120)}</div>
             <Link to={`/tours/${tour.id}`}>
                 <button>Узнать подробнее</button>
             </Link>

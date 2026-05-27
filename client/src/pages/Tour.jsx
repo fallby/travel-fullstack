@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function Tour() {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [tour, setTour] = useState([]);
+    const [tour, setTour] = useState(null);
     const [schedule, setSchedule] = useState([]);
 
     const { id } = useParams();
@@ -42,6 +43,14 @@ export default function Tour() {
 
     if (isLoading) {
         return <div>Загрузка...</div>;
+    }
+
+    if (error) {
+        return <div>Ошибка: {error}</div>;
+    }
+
+    if (!tour) {
+        return <div>Тур не найден</div>;
     }
 
     return (
