@@ -1,5 +1,9 @@
 export default function AdminMainPage() {
 
+    if (localStorage.getItem('role') !== 'admin') {
+        return <div>Нет доступа</div>;
+    }
+    
     return (
         <div className="adminMainPage">
             <h1> Панель администратора </h1>

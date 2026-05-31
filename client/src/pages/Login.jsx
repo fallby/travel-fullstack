@@ -83,7 +83,7 @@ export default function Login() {
     }
 
     return (
-        <div>
+        <div className="login_form">
             {serverError && <div>{serverError}</div>}
             <form method="post" target="self" noValidate onSubmit={handleSubmit}>
                 <input type="email" className="email_input" name="email" placeholder="Введите email" onChange={handleChange}></input>
