@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function Tour() {
@@ -6,6 +6,7 @@ export default function Tour() {
     const [isLoading, setIsLoading] = useState(false);
     const [tour, setTour] = useState(null);
     const [schedule, setSchedule] = useState([]);
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -53,6 +54,10 @@ export default function Tour() {
         return <div>Тур не найден</div>;
     }
 
+    function handleBooking() {
+        navigate(`/booking/${id}`);
+    }
+
     return (
         <div className="tour">
             <h3>{tour.tourName}</h3>
@@ -85,7 +90,7 @@ export default function Tour() {
                                 </div>
                             )}
 
-                            <button disabled={available === 0}>
+                            <button disabled={available === 0} onClick={handleBooking}>
                                 Забронировать
                             </button>
 

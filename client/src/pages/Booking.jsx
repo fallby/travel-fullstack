@@ -1,101 +1,145 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 export default function Booking() {
+
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const [error, setError] = useState({});
     const [serverError, setServerError] = useState('');
-    const [form, setForm] = useState(
-        {
-            name: '',
-            phoneNumber: '',
-        }
-    );
+    const [schedule, setSchedule] = useState([]);
+    const [tour, setTour] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    function handleChange(event) {
-        let value = event.target.value;
-        let fieldName = event.target.name;
-        let newForm = { ...form };
-        newForm[fieldName] = value;
-        setForm(newForm);
+    const [form, setForm] = useState({
+        name: '',
+        phone: '',
+        comment: '',
+        tour_date_id: ''
+    });
 
-        let newErrors = { ...error };
-        if (newErrors[fieldName]) {
-            newErrors[fieldName] = '';
+    useEffect(() => {
+        async function fetchDates() {
+            const response = await fetch(`/api/tours/${id}/dates`);
+            const data = await response.json();
+            setSchedule(data.tour);
         }
-        setError(newErrors);
+
+        fetchDates();
+    }, [id]);
+
+    useEffect(() => {
+        async function fetchTour() {
+            const response = await fetch(`/api/tours/${id}`);
+            const data = await response.json();
+            setTour(data.tour[0]);
+        }
+
+        fetchTour();
+    }, [id]);
+
+    if (!tour) {
+        return <div>Загрузка...</div>;
     }
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        let errors = validate(form);
-
-        if (Object.keys(errors).length !== 0) {
-            setError(errors);
-        } else {
-            registration(form);
-        }
+    function handleChange(event) {
+        setForm({
+            ...form,
+            [event.target.name]: event.target.value
+        });
     }
 
     function validate(form) {
         let errors = {};
-        const phoneNumberPattern = /^\+7\s?[\(]{0,1}\d{3}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}$/;
 
-        if (form.name === '') {
-            errors.name = "Введите имя.";
-        }
-
-        if (form.phoneNumber === '') {
-            errors.phoneNumber = "Введите email.";
-        } else if (!phoneNumberPattern.test(form.phoneNumber)) {
-            errors.phoneNumber = "Некорректный номер телефона.";
-        }
+        if (!form.name.trim()) errors.name = 'Введите имя';
+        if (!form.phone.trim()) errors.phone = 'Введите телефон';
+        if (!form.tour_date_id) errors.tour_date_id = 'Выберите дату';
 
         return errors;
     }
 
     async function booking(form) {
-        const { data } = form;
-        let response = await fetch('/api/booking', {
+
+        setIsLoading(true);
+
+        const response = await fetch('/api/bookings', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form)
+        });
+
+        const data = await response.json();
+
+        setIsLoading(false);
 
         if (!response.ok) {
-            setServerError(`HTTP error! Status: ${response.status}`);
+            setServerError(data.error || 'Ошибка бронирования');
             return;
-        } else {
-            setServerError('');
-            const responseData = await response.json();
-            const token = responseData.access_token;
-            localStorage.setItem('token', token);
-            navigate("/tours");
         }
+
+        navigate('/booking/success');
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        const validationErrors = validate(form);
+
+        if (Object.keys(validationErrors).length > 0) {
+            setError(validationErrors);
+            return;
+        }
+
+        booking(form);
     }
 
     return (
-        <div className="booking_page">
-            <h1>Бронирование заказа</h1>
-            <form method="post" target="self" className="booking_form" noValidate onSubmit={handleSubmit}>
-                <div>
-                    <p>1. Личные данные</p>
-                    <input type="text" className="name" name="name" placeholder="Введите имя" onChange={handleChange}></input>
-                    {error.name && <div>{error.name}</div>}
-            
-                    <input type="tel" className="phoneNumber_input" name="phoneNumber" placeholder="Введите номер телефона" onChange={handleChange}></input>
-                    {error.phoneNumber && <div>{error.phoneNumber}</div>}
-                </div>
-                <div>
-                    <p>3. Выбор тура</p>
-                    
-                </div>
-                <div>
-                    <p>4. Выбор дат</p>
-                </div>
-                <button>Забронировать</button>
+        <div className="bookingPage">
+
+            <h1>Бронирование тура</h1>
+
+            {serverError && <div>{serverError}</div>}
+
+            <form onSubmit={handleSubmit} className="booking_form">
+
+                <h2>{tour.tourName}</h2>
+
+                <input name="name" placeholder="Имя" onChange={handleChange} />
+                {error.name && <div>{error.name}</div>}
+
+                <input name="phone" placeholder="Телефон" onChange={handleChange} />
+                {error.phone && <div>{error.phone}</div>}
+
+                <select name="tour_date_id" onChange={handleChange}>
+                    <option value="">Выберите дату</option>
+
+                    {schedule.map((date) => {
+
+                        const available = date.total_slots - date.booked_slots;
+
+                        return (
+                            <option key={date.tourDateId} value={date.tourDateId}>
+                                {new Date(date.startDate).toLocaleDateString('ru-RU')}
+                                {" | "}
+                                {date.price} ₽
+                                {" | "}
+                                {available > 0 ? `мест: ${available}` : "нет мест"}
+                            </option>
+                        );
+                    })}
+                </select>
+
+                {error.tour_date_id && <div>{error.tour_date_id}</div>}
+
+                <textarea name="comment" onChange={handleChange} />
+
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? "Бронируем..." : "Забронировать"}
+                </button>
+
             </form>
-
-
-
-
         </div>
-    )
+    );
 }

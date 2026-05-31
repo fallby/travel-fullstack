@@ -92,7 +92,7 @@ async function getTourById(id) {
 }
 
 async function getTourDatePriceSlotsById(id) {
-    const query = 'SELECT t.id, t.duration_days, td.start_date AS startDate, td.end_date AS endDate, td.price, td.total_slots, td.booked_slots FROM tours t INNER JOIN tour_dates td ON t.id=td.tour_id WHERE t.is_active=1 AND t.id=? ORDER BY start_date';
+    const query = 'SELECT td.id AS tourDateId, td.start_date AS startDate, td.end_date AS endDate, td.price, td.total_slots, td.booked_slots FROM tours t INNER JOIN tour_dates td ON t.id = td.tour_id WHERE t.is_active = 1 AND t.id = ? ORDER BY td.start_date';
     const [rows] = await db.query(query, [id]);
     return rows;
 }

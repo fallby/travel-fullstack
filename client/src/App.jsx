@@ -6,6 +6,8 @@ import Tours from "./pages/Tours.jsx";
 import Login from "./pages/Login.jsx";
 import Tour from "./pages/Tour.jsx";
 import City from "./pages/City.jsx";
+import Booking from "./pages/Booking.jsx";
+import BookingSuccess from "./pages/BookingSuccess.jsx";
 
 import AdminMainPage from "./admin/AdminMainPage.jsx";
 
@@ -32,6 +34,8 @@ function App() {
         <Route path="/registration" element={<Registration />}/>
         <Route path="/tours/:id" element={<Tour />} />
         <Route path="/cities/:id" element={<City />}/>
+        <Route path="/booking/:id" element={<Booking />} />
+        <Route path="/booking/success" element={<BookingSuccess />} />
 
         <Route path="/admin" element={<AdminMainPage />}/>
       </Routes>
