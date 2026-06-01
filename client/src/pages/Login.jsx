@@ -70,6 +70,7 @@ export default function Login() {
         } else {
             setServerError('');
             const responseData = await response.json();
+            console.log(responseData);
             const token = responseData.access_token;
             const role = responseData.user.role;
             localStorage.setItem('token', token);

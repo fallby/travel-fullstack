@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function AdminMainPage() {
 
+    console.log(localStorage.getItem('role'));
     if (localStorage.getItem('role') !== 'admin') {
         return <div>Нет доступа</div>;
     }
@@ -17,10 +20,6 @@ export default function AdminMainPage() {
 
             <div className="toursDashboard">
                 <Link to={'/admin/tours'}> Туры </Link>
-            </div>
-
-            <div className="scheduleDashboard">
-                <Link to={'/admin/schedule'}> Расписание </Link>
             </div>
 
             <div className="bookingsDashboard">

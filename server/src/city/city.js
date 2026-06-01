@@ -48,6 +48,52 @@ router.get('/api/cities/:id', async (req, res) => {
     }
 })
 
+router.post('/api/cities', async (req, res) => {
+
+    try {
+        const { name, description } = req.body;
+
+        await createCity(name, description);
+
+        return res.json({
+            success: true,
+            message: 'Город создан'
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: 'Ошибка сервера'
+        });
+    }
+
+});
+
+router.put('/api/cities/:id', async (req, res) => {
+
+    try {
+        const { name, description } = req.body;
+
+        await updateCity(
+            req.params.id,
+            name,
+            description
+        );
+
+        return res.json({
+            success: true,
+            message: 'Город обновлён'
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: 'Ошибка сервера'
+        });
+    }
+
+});
+
 async function getAllCities() {
     const query = 'SELECT * FROM cities';
     const [rows] = await db.query(query);
@@ -58,6 +104,18 @@ async function getCityById(id) {
     const query = 'SELECT * FROM cities WHERE id=?';
     const [rows] = await db.query(query, [id]);
     return rows[0];
+}
+
+async function createCity(name, description) {
+    const query = 'INSERT INTO cities (name, description) VALUES (?, ?)';
+    const [result] = await db.query(query, [name, description]);
+    return result;
+}
+
+async function updateCity(id, name, description) {
+    const query = 'UPDATE cities SET name = ?, description = ? WHERE id = ?';
+    const [result] = await db.query(query, [name, description, id]);
+    return result;
 }
 
 export default router;

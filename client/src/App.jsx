@@ -10,6 +10,9 @@ import Booking from "./pages/Booking.jsx";
 import BookingSuccess from "./pages/BookingSuccess.jsx";
 
 import AdminMainPage from "./admin/AdminMainPage.jsx";
+import AdminBookings from './admin/AdminBookings.jsx';
+import AdminCities from './admin/AdminCities.jsx';
+import AdminTours from './admin/AdminTours.jsx';
 
 import Nav from "./components/Navigation.jsx";
 import './App.css'
@@ -38,6 +41,9 @@ function App() {
         <Route path="/booking/success" element={<BookingSuccess />} />
 
         <Route path="/admin" element={<AdminMainPage />}/>
+        <Route path="/admin/bookings" element={<AdminBookings />}/>
+        <Route path="/admin/cities" element={<AdminCities />}/>
+        <Route path="/admin/tours" element={<AdminTours />}/>
       </Routes>
     </BrowserRouter>
   )
