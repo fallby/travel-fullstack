@@ -182,6 +182,51 @@ router.put('/api/tour-dates/:id', async (req, res) => {
     }
 });
 
+router.patch('/api/tours/:id/status', async (req, res) => {
+
+    const { id } = req.params;
+    const { is_active } = req.body;
+
+    try {
+
+        await updateTourStatus(id, is_active);
+
+        return res.json({
+            success: true,
+            message: 'Статус обновлён'
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            error: 'Ошибка сервера'
+        });
+    }
+});
+
+router.get('/api/admin/tours', async (req, res) => {
+
+    try {
+
+        const tours = await getAllToursForAdmin();
+
+        return res.json({
+            success: true,
+            tours
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            error: 'Ошибка сервера'
+        });
+    }
+});
+
 async function getActiveTours() {
     const query = 'SELECT * FROM tours WHERE is_active=1';
     const [rows] = await db.query(query);
@@ -240,6 +285,18 @@ async function updateTourDate(id, start_date, end_date, price, total_slots) {
     const query = 'UPDATE tour_dates SET start_date=?, end_date=?, price=?, total_slots=? WHERE id=?';
     const [result] = await db.query(query, [start_date, end_date, price, total_slots, id]);
     return result;
+}
+
+async function updateTourStatus(id, is_active) {
+    const query = 'UPDATE tours SET is_active=? WHERE id=?';
+    const [result] = await db.query(query, [is_active, id]);
+    return result;
+}
+
+async function getAllToursForAdmin() {
+    const query = 'SELECT t.id, t.name, t.description, t.duration_days, t.is_active, c.name AS cityName, MIN(td.price) AS minPrice FROM tours t JOIN cities c ON c.id = t.city_id LEFT JOIN tour_dates td ON td.tour_id = t.id GROUP BY t.id, t.name, t.description, t.duration_days, t.is_active, c.name ORDER BY t.id ASC;';
+    const [rows] = await db.query(query);
+    return rows;
 }
 
 export default router;
