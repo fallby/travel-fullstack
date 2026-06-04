@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background: #ffffff;
+    color: #2f3640;
+    line-height: 1.6;
+}
+
+/* HERO */
+
+.hero {
+    margin: 20px;
+    position: relative;
+
+    height: calc(100vh - 90px);
+
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+/* контейнер картинки */
+.hero-slider {
+    width: 100%;
+    height: 100%;
+}
+
+/* САМОЕ ВАЖНОЕ */
+.hero-slider img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block; /* убирает “лишний зазор снизу” */
+}
+
+/* затемнение */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1;
+}
+
+/* текст */
+.hero-content {
+    position: absolute;
+
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+
+    z-index: 2;
+
+    color: white;
+
+    max-width: 700px;
+}
+
+.hero-content h1 {
+    font-size: 72px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+/* кнопка */
+.hero-button {
+    display: inline-block;
+
+    padding: 16px 32px;
+
+    background: #1e3a5f;
+    color: white;
+
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+
+    border-radius: 14px;
+
+    transition: 0.3s;
+}
+
+.hero-button:hover {
+    background: #29527f;
+    transform: translateY(-2px);
+}
+
+.cities {
+    padding: 100px 80px;
+}
+
+.cities h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 42px;
+}
+
+.cities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.city-card {
+    position: relative;
+    height: 320px;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.city-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.city-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+}
+
+.city-card h3 {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    color: white;
+    font-size: 32px;
+    z-index: 2;
+}
+
+/* ABOUT */
+.about {
+    padding: 100px 80px;
+}
+
+.about-container {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.about-text ul {
+    padding-left: 20px;
+}
+
+.about-image {
+    flex: 1;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 24px;
+}
+
+/* ADVANTAGES */
+.advantages {
+    padding: 100px 80px;
+    background: #f6f9fc;
+    text-align: center;
+}
+
+.adv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.adv-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* REQUEST */
+.request {
+    padding: 100px 80px;
+    background: #1e3a5f;
+    color: white;
+    text-align: center;
+}
+
+.request-btn {
+    margin-top: 20px;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 12px;
+    background: white;
+    color: #1e3a5f;
+    font-weight: bold;
+}
+
+/* CONTACTS */
+.contacts {
+    padding: 100px 80px;
+    text-align: center;
+}
+
+/* FOOTER */
+.footer {
+    padding: 60px;
+    background: #0f2236;
+    color: white;
+    text-align: center;
+}
+
+.footer-logo {
+    width: 60px;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+}
