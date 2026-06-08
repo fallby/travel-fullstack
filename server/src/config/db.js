@@ -8,13 +8,5 @@ const db = mysql.createPool({
   database: 'travel_db' 
 });
 
-// db.connect((err) => {
-//   if (err) {
-//     console.error('Ошибка подключения к базе данных:', err);
-//     return;
-//   }
-//   console.log('Подключено к MySQL!');
-// });
-
 export default db;
 
