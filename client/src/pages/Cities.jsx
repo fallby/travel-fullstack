@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import CityCard from "../components/CityCard";
-// добавить на страницу города доступные туры в этот город
+
 export default function Cities() {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -40,12 +40,13 @@ export default function Cities() {
     }
 
     return (
-        <div>
-            <main>
+        <div className="cities-page">
+            <h1 className="cities-title">Города для путешествий</h1>
+            <div className="cities-grid">
                 {cities.map((city) => ( 
                     <CityCard key={city.id} city={city}/>
                 ))}
-            </main>
+            </div>
         </div>
     )
 }

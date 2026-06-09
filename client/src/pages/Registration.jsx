@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/Login.css";
 
 export default function Registration() {
     let navigate = useNavigate();
@@ -105,22 +106,25 @@ export default function Registration() {
     }
 
     return (
-        <div>
-            {serverError && <div>{serverError}</div>}
-            <form method="post" target="self" noValidate onSubmit={handleSubmit}>
-                <input type="text" className="name" name="name" placeholder="Введите имя" onChange={handleChange}></input>
-                {error.name && <div>{error.name}</div>}
-                <input type="text" className="surname" name="surname" placeholder="Введите фамилию" onChange={handleChange}></input>
-                {error.surname && <div>{error.surname}</div>}
-                <input type="email" className="email_input" name="email" placeholder="Введите email" onChange={handleChange}></input>
-                {error.email && <div>{error.email}</div>}
-                <input type="password" className="password_input" name="password" placeholder="Введите пароль" onChange={handleChange}></input>
-                {error.password && <div>{error.password}</div>}
-                <input type="password" className="confirm_password_input" name="confirmPassword" placeholder="Повторите пароль" onChange={handleChange}></input>
-                {error.confirmPassword && <div>{error.confirmPassword}</div>}
-                <button type="submit">Зарегистрироваться</button>
-                <p>Уже зарегистрированы? <Link to="/login">Войти</Link></p>
-            </form>
+        <div className="auth-page">
+            <div className="auth-card">
+                <h1>Регистрация</h1>
+                {serverError && <div className="error-text">{serverError}</div>}
+                <form method="post" target="self" noValidate onSubmit={handleSubmit}>
+                    <input type="text" className="name" name="name" placeholder="Введите имя" onChange={handleChange}></input>
+                    {error.name && <div className="error-text">{error.name}</div>}
+                    <input type="text" className="surname" name="surname" placeholder="Введите фамилию" onChange={handleChange}></input>
+                    {error.surname && <div className="error-text">{error.surname}</div>}
+                    <input type="email" className="email_input" name="email" placeholder="Введите email" onChange={handleChange}></input>
+                    {error.email && <div className="error-text">{error.email}</div>}
+                    <input type="password" className="password_input" name="password" placeholder="Введите пароль" onChange={handleChange}></input>
+                    {error.password && <div className="error-text">{error.password}</div>}
+                    <input type="password" className="confirm_password_input" name="confirmPassword" placeholder="Повторите пароль" onChange={handleChange}></input>
+                    {error.confirmPassword && <div className="error-text">{error.confirmPassword}</div>}
+                    <button type="submit">Зарегистрироваться</button>
+                    <p>Уже зарегистрированы? <Link to="/login">Войти</Link></p>
+                </form>
+            </div>
         </div>
     )
 }

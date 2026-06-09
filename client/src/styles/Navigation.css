@@ -1,43 +1,28 @@
-/* НАВИГАЦИЯ */
-
 nav {
     height: 90px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 60px;
-
     background: white;
-
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-
     position: sticky;
     top: 0;
-
     z-index: 1000;
 }
-
-/* ЛОГО */
 
 .logo {
     display: flex;
     align-items: center;
-
     text-decoration: none;
 }
 
 .logo img {
     height: 60px;
     width: auto;
-
     object-fit: contain;
-
     display: block;
 }
-
-/* ССЫЛКИ */
 
 .nav-links {
     display: flex;
@@ -47,12 +32,9 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-
     color: #1e3a5f;
-
     font-size: 17px;
     font-weight: 500;
-
     transition: 0.3s;
 }
 
@@ -60,63 +42,43 @@ nav {
     color: #4f8a73;
 }
 
-/* ПРАВАЯ ЧАСТЬ */
-
-.nav-right {
+.nav-btn {
     display: flex;
     align-items: center;
 }
 
-/* КНОПКА ВОЙТИ */
-
-.nav-right a {
+.nav-btn a {
     display: inline-block;
-
     padding: 12px 28px;
-
     background: #1e3a5f;
-
     color: white;
-
     border: 2px solid #1e3a5f;
     border-radius: 12px;
-
     text-decoration: none;
     font-weight: 600;
-
     transition: 0.3s;
 }
 
-.nav-right a:hover {
+.nav-btn a:hover {
     background: white;
-
     color: #1e3a5f;
-
     border: 2px solid #1e3a5f;
 }
 
-
-.nav-right button {
+.nav-btn button {
     padding: 12px 28px;
-
     background: #1e3a5f;
-
     color: white;
-
     border: 2px solid #1e3a5f;
     border-radius: 12px;
-
     font-size: 15px;
     font-weight: 600;
-
     cursor: pointer;
-
     transition: 0.3s;
 }
 
-.nav-right button:hover {
+.nav-btn button:hover {
     background: white;
-
     color: #1e3a5f;
 }
 

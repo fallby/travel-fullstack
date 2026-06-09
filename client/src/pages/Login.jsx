@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/Login.css";
 
 export default function Login() {
     let navigate = useNavigate();
@@ -84,17 +85,20 @@ export default function Login() {
     }
 
     return (
-        <div className="login_form">
-            {serverError && <div>{serverError}</div>}
-            <form method="post" target="self" noValidate onSubmit={handleSubmit}>
-                <input type="email" className="email_input" name="email" placeholder="Введите email" onChange={handleChange}></input>
-                {error.email && <div>{error.email}</div>}
-                <input type="password" className="password_input" name="password" placeholder="Введите пароль" onChange={handleChange}></input>
-                {error.password && <div>{error.password}</div>}
-                <button type="submit" className="login_button">Войти</button>
-                {/* <Link to="/" className="login_button">Войти</Link> */}
-                <p>Ещё не зарегистрированы? <Link to="/registration">Зарегистрироваться</Link></p>
-            </form>
+        <div className="auth-page">
+            <div className="auth-card">
+                <h1>Вход</h1>
+                {serverError && <div className="error-text">{serverError}</div>}
+                <form method="post" target="self" noValidate onSubmit={handleSubmit}>
+                    <input type="email" className="email_input" name="email" placeholder="Введите email" onChange={handleChange}></input>
+                    {error.email && <div className="error-text">{error.email}</div>}
+                    <input type="password" className="password_input" name="password" placeholder="Введите пароль" onChange={handleChange}></input>
+                    {error.password && <div className="error-text">{error.password}</div>}
+                    <button type="submit" className="login_button">Войти</button>
+                    <p>Ещё не зарегистрированы? <Link to="/registration">Зарегистрироваться</Link></p>
+                </form>
+            </div>
+
         </div>
     )
 }

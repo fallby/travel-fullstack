@@ -1,56 +1,59 @@
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
 import Kaliningrad1 from "../img/cities/Kaliningrad/Kaliningrad1.jpg";
+import Moscow1 from "../img/cities/Moscow/Moscow1.webp";
+import Kazan1 from "../img/cities/Kazan/Kazan1.webp";
+import Sochi1 from "../img/cities/Sochi/Sochi1.jpg";
+import Chelyabinsk2 from "../img/cities/Chelyabinsk/Chelyabinsk2.jpg";
+import logo from "../img/logo.png";
 
 export default function Home() {
   return (
     <div className="home">
 
-      <section className="hero">
-        <div className="hero-overlay"></div>
+      <section className="main">
+        <div className="main-overlay"></div>
 
-        <div className="hero-content">
+        <div className="main-content">
           <h1>Путешествуйте по России</h1>
           <p>Откройте самые красивые места страны</p>
 
-          <Link to="/tours" className="hero-btn">
+          <Link to="/tours" className="main-button">
             Смотреть туры
           </Link>
         </div>
 
-        <div className="hero-slider">
+        <div className="main-slider">
           <img src={Kaliningrad1} alt="Kaliningrad" />
         </div>
       </section>
 
-      {/* POPULAR CITIES */}
       <section className="cities">
         <h2>Популярные направления</h2>
 
         <div className="cities-grid">
           <div className="city-card">
-            <img src="/images/baikal.jpg" />
-            <h3>Байкал</h3>
+            <img src={Moscow1} />
+            <h3>Москва</h3>
           </div>
 
           <div className="city-card">
-            <img src="/images/kazan.jpg" />
+            <img src={Kazan1} />
             <h3>Казань</h3>
           </div>
 
           <div className="city-card">
-            <img src="/images/sochi.jpg" />
+            <img src={Sochi1} />
             <h3>Сочи</h3>
           </div>
 
           <div className="city-card">
-            <img src="/images/kaliningrad.jpg" />
+            <img src={Kaliningrad1} />
             <h3>Калининград</h3>
           </div>
         </div>
       </section>
 
-      {/* ABOUT */}
       <section className="about">
         <div className="about-container">
 
@@ -70,13 +73,12 @@ export default function Home() {
           </div>
 
           <div className="about-image">
-            <img src="/images/altai.jpg" />
+            <img src={Chelyabinsk2} />
           </div>
 
         </div>
       </section>
 
-      {/* ADVANTAGES */}
       <section className="advantages">
         <h2>Почему выбирают нас</h2>
 
@@ -90,7 +92,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* REQUEST */}
       <section className="request">
         <h2>Готовы отправиться в путешествие?</h2>
         <p>Оставьте заявку — мы подберём идеальный тур</p>
@@ -98,7 +99,6 @@ export default function Home() {
         <button className="request-btn">Оставить заявку</button>
       </section>
 
-      {/* CONTACTS */}
       <section className="contacts">
         <h2>Контакты</h2>
 
@@ -109,15 +109,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="footer">
-        <img src="/logo.png" className="footer-logo" />
+        <img src={logo} className="footer-logo" />
         <p>В путь — путешествия по России</p>
 
         <div className="footer-links">
           <Link to="/">Главная</Link>
           <Link to="/tours">Туры</Link>
-          <Link to="/cities">Города</Link>
+          <Link to="/cities">Города</Link> 
         </div>
 
         <small>© 2026 Все права защищены</small>

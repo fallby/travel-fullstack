@@ -14,21 +14,15 @@ import AdminBookings from './admin/AdminBookings.jsx';
 import AdminCities from './admin/AdminCities.jsx';
 import AdminTours from './admin/AdminTours.jsx';
 
-import Nav from "./components/Navigation.jsx";
+import Navigation from "./components/Navigation.jsx";
 import './App.css'
 import Registration from './pages/Registration.jsx';
 
 function App() {
-  // const [count, setCount] = useState(0)
-  // useEffect(() => {
-  // fetch('/api/test')
-  //   .then(res => res.json())
-  //   .then(data => console.log(data));
-  // }, []); 
 
   return (
     <BrowserRouter>
-      <Nav />
+      <Navigation />
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/cities" element={<Cities />}/>

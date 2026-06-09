@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/Navigation.css";
 import logo from "../img/logo.png";
 
-export default function Nav() {
+export default function Navigation() {
     const token = localStorage.getItem("token");
     const isAuth = !!token;
 
@@ -21,10 +21,9 @@ export default function Nav() {
                 <Link to="/cities">Города</Link>
                 <Link to="/tours">Туры</Link>
             </div>
-            <div className="nav-right">
+            <div className="nav-btn">
                 {isAuth ? (<button onClick={logout}>Выйти</button>) : (<Link to="/login">Войти</Link>)}
             </div>
         </nav>
     )
 }
-//https://metanit.com/web/react/4.3.php как выделить активную ссылку

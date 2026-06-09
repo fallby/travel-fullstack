@@ -11,9 +11,7 @@ body {
     line-height: 1.6;
 }
 
-/* HERO */
-
-.hero {
+.main {
     margin: 20px;
     position: relative;
 
@@ -23,76 +21,54 @@ body {
     overflow: hidden;
 }
 
-/* контейнер картинки */
-.hero-slider {
+.main-slider img {
     width: 100%;
     height: 100%;
-}
-
-/* САМОЕ ВАЖНОЕ */
-.hero-slider img {
-    width: 100%;
-    height: 100%;
-
     object-fit: cover;
-
-    display: block; /* убирает “лишний зазор снизу” */
+    display: block; 
 }
 
-/* затемнение */
-.hero-overlay {
+.main-overlay {
     position: absolute;
     inset: 0;
-
     background: rgba(0, 0, 0, 0.35);
     z-index: 1;
 }
 
-/* текст */
-.hero-content {
+.main-content {
     position: absolute;
-
     top: 50%;
     left: 8%;
     transform: translateY(-50%);
-
     z-index: 2;
-
     color: white;
-
     max-width: 700px;
 }
 
-.hero-content h1 {
+.main-content h1 {
     font-size: 72px;
     line-height: 1.1;
     margin-bottom: 20px;
 }
 
-.hero-content p {
+.main-content p {
     font-size: 24px;
     margin-bottom: 30px;
 }
 
-/* кнопка */
-.hero-button {
+.main-button {
     display: inline-block;
-
     padding: 16px 32px;
-
     background: #1e3a5f;
     color: white;
-
     text-decoration: none;
     font-weight: 600;
     font-size: 18px;
-
     border-radius: 14px;
-
     transition: 0.3s;
 }
 
-.hero-button:hover {
+.main-button:hover {
     background: #29527f;
     transform: translateY(-2px);
 }
@@ -142,7 +118,6 @@ body {
     z-index: 2;
 }
 
-/* ABOUT */
 .about {
     padding: 100px 80px;
 }
@@ -180,7 +155,6 @@ body {
     border-radius: 24px;
 }
 
-/* ADVANTAGES */
 .advantages {
     padding: 100px 80px;
     background: #f6f9fc;
@@ -201,7 +175,6 @@ body {
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
 }
 
-/* REQUEST */
 .request {
     padding: 100px 80px;
     background: #1e3a5f;
@@ -219,13 +192,11 @@ body {
     font-weight: bold;
 }
 
-/* CONTACTS */
 .contacts {
     padding: 100px 80px;
     text-align: center;
 }
 
-/* FOOTER */
 .footer {
     padding: 60px;
     background: #0f2236;

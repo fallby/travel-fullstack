@@ -7,7 +7,7 @@ export default function AdminMainPage() {
         return <div>Нет доступа</div>;
     }
     
-    return (
+    return ( 
         <div className="adminMainPage">
             <h1> Панель администратора </h1>
             <div className="usersDashboard">
