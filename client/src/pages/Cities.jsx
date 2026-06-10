@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import CityCard from "../components/CityCard";
+import "../styles/Cities.css";
 
 export default function Cities() {
     const [error, setError] = useState(null);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../styles/admin/AdminCities.css";
 
 export default function AdminCities() {
 
@@ -15,26 +16,21 @@ export default function AdminCities() {
     }, []);
 
     async function fetchCities() {
-
         const response = await fetch('/api/cities');
         const data = await response.json();
-
         setCities(data.cities);
     }
 
     function handleChange(event) {
+        const { name, value } = event.target;
 
-        const value = event.target.value;
-        const fieldName = event.target.name;
-
-        setForm({
-            ...form,
-            [fieldName]: value
-        });
+        setForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
     }
 
     async function createCity() {
-
         const response = await fetch('/api/cities', {
             method: 'POST',
             headers: {
@@ -43,20 +39,13 @@ export default function AdminCities() {
             body: JSON.stringify(form)
         });
 
-        if (!response.ok) {
-            return;
-        }
+        if (!response.ok) return;
 
-        setForm({
-            name: '',
-            description: ''
-        });
-
+        setForm({ name: '', description: '' });
         fetchCities();
     }
 
     async function updateCity() {
-
         const response = await fetch(`/api/cities/${editingCityId}`, {
             method: 'PUT',
             headers: {
@@ -65,22 +54,14 @@ export default function AdminCities() {
             body: JSON.stringify(form)
         });
 
-        if (!response.ok) {
-            return;
-        }
+        if (!response.ok) return;
 
         setEditingCityId(null);
-
-        setForm({
-            name: '',
-            description: ''
-        });
-
+        setForm({ name: '', description: '' });
         fetchCities();
     }
 
     function editCity(city) {
-
         setEditingCityId(city.id);
 
         setForm({
@@ -90,7 +71,6 @@ export default function AdminCities() {
     }
 
     function handleSubmit(event) {
-
         event.preventDefault();
 
         if (editingCityId) {
@@ -101,15 +81,26 @@ export default function AdminCities() {
     }
 
     return (
-        <div className="adminCities">
+        <div className="admin-cities">
 
             <h1>Города</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="admin-cities-form">
 
-                <input type="text" name="name" placeholder="Название города" value={form.name} onChange={handleChange} />
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Название города"
+                    value={form.name}
+                    onChange={handleChange}
+                />
 
-                <textarea name="description" placeholder="Описание города" value={form.description} onChange={handleChange}></textarea>
+                <textarea
+                    name="description"
+                    placeholder="Описание города"
+                    value={form.description}
+                    onChange={handleChange}
+                />
 
                 <button type="submit">
                     {editingCityId ? 'Сохранить изменения' : 'Добавить город'}
@@ -117,7 +108,7 @@ export default function AdminCities() {
 
             </form>
 
-            <table>
+            <table className="admin-cities-table">
 
                 <thead>
                     <tr>
@@ -129,25 +120,18 @@ export default function AdminCities() {
                 </thead>
 
                 <tbody>
-
-                    {cities.map((city) => (
+                    {cities.map(city => (
                         <tr key={city.id}>
-
                             <td>{city.id}</td>
-
                             <td>{city.name}</td>
-
                             <td>{city.description}</td>
-
                             <td>
                                 <button onClick={() => editCity(city)}>
                                     Изменить
                                 </button>
                             </td>
-
                         </tr>
                     ))}
-
                 </tbody>
 
             </table>

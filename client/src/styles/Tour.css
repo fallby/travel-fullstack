@@ -1,0 +1,67 @@
+.tour-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.tour-header {
+    margin-bottom: 30px;
+}
+
+.tour-header h1 {
+    font-size: 32px;
+    color: #1e3a5f;
+    margin-bottom: 10px;
+}
+
+.tour-meta {
+    display: flex;
+    gap: 15px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.tour-desc {
+    color: #444;
+    line-height: 1.6;
+}
+
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.schedule-card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.schedule-price {
+    font-weight: 600;
+}
+
+.schedule-slots {
+    color: #666;
+    font-size: 14px;
+}
+
+.schedule-card button {
+    margin-top: 10px;
+    padding: 10px;
+    background: #1e3a5f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.schedule-card button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}

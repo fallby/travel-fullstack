@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../styles/admin/AdminBookings.css";
 
 export default function AdminBookings() {
     const [bookings, setBookings] = useState([]);
@@ -48,10 +49,10 @@ export default function AdminBookings() {
     if (loading) return <div>Загрузка...</div>;
 
     return (
-        <div className="adminBookings">
+        <div className="admin-bookings">
             <h1>Бронирования</h1>
 
-            <table border="1" cellPadding="10">
+            <table className="admin-bookings-table">
                 <thead>
                     <tr>
                         <th>Имя</th>

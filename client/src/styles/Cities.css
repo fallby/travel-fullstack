@@ -1,0 +1,18 @@
+.cities-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+}
+
+.cities-title {
+    text-align: center;
+    color: #1e3a5f;
+    font-size: 42px;
+    margin-bottom: 50px;
+}
+
+.cities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}

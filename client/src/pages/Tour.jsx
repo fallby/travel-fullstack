@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import "../styles/Tour.css";
 
 export default function Tour() {
     const [error, setError] = useState(null);
@@ -16,89 +17,92 @@ export default function Tour() {
                 setIsLoading(true);
 
                 const responseTour = await fetch(`/api/tours/${id}`);
-                const responceSchedule = await fetch(`/api/tours/${id}/dates`);
+                const responseSchedule = await fetch(`/api/tours/${id}/dates`);
 
-                if (!responseTour.ok) {
-                    throw new Error(`Ошибка HTTP: статус ${responseTour.status}`);
-                }
-                if (!responceSchedule.ok) {
-                    throw new Error(`Ошибка HTTP: статус ${responceSchedule.status}`);
+                if (!responseTour.ok || !responseSchedule.ok) {
+                    throw new Error("Ошибка загрузки данных");
                 }
 
                 const tourData = await responseTour.json();
-                const scheduleData = await responceSchedule.json();
-                console.log(tourData);
+                const scheduleData = await responseSchedule.json();
+
                 setTour(tourData.tour[0]);
-                console.log(scheduleData);
                 setSchedule(scheduleData.tour);
                 setError(null);
+
             } catch (err) {
                 setError(err.message);
             } finally {
                 setIsLoading(false);
             }
         }
+
         fetchData();
+    }, [id]);
 
-    }, [id])
+    if (isLoading) return <div className="loading">Загрузка...</div>;
+    if (error) return <div className="error">{error}</div>;
+    if (!tour) return <div>Тур не найден</div>;
 
-    if (isLoading) {
-        return <div>Загрузка...</div>;
-    }
-
-    if (error) {
-        return <div>Ошибка: {error}</div>;
-    }
-
-    if (!tour) {
-        return <div>Тур не найден</div>;
-    }
-
-    function handleBooking() {
-        navigate(`/booking/${id}`);
+    function handleBooking(dateId) {
+        navigate(`/booking/${dateId}`);
     }
 
     return (
-        <div className="tour">
-            <h3>{tour.tourName}</h3>
-            <div>{tour.cityName}</div>
-            <div>{tour.durationDays}</div>
-            <div>{tour.description}</div>
+        <div className="tour-page">
+
+            <div className="tour-header">
+                <h1>{tour.tourName}</h1>
+                <div className="tour-meta">
+                    <span>{tour.cityName}</span>
+                    <span>{tour.durationDays} дней</span>
+                </div>
+                <p className="tour-desc">{tour.description}</p>
+            </div>
+
+            <h2>Доступные даты</h2>
+
             {schedule.length === 0 ? (
-                <div>Нет доступных дат</div>
+                <p>Нет доступных дат</p>
             ) : (
-                schedule.map((date) => {
+                <div className="schedule-list">
 
-                    const available = date.total_slots - date.booked_slots;
+                    {schedule.map((date) => {
+                        const available = date.total_slots - date.booked_slots;
 
-                    return (
-                        <div key={date.id}>
+                        return (
+                            <div className="schedule-card" key={date.tourDateId}>
 
-                            <div>
-                                {new Date(date.startDate).toLocaleDateString('ru-RU')}
-                                {" - "}
-                                {new Date(date.endDate).toLocaleDateString('ru-RU')}
-                            </div>
-
-                            <div>{date.price} ₽</div>
-
-                            {available > 0 ? (
-                                <div>Осталось мест: {available}</div>
-                            ) : (
-                                <div style={{ color: "red" }}>
-                                    Нет мест
+                                <div className="schedule-date">
+                                    {new Date(date.startDate).toLocaleDateString('ru-RU')}
+                                    {" — "}
+                                    {new Date(date.endDate).toLocaleDateString('ru-RU')}
                                 </div>
-                            )}
 
-                            <button disabled={available === 0} onClick={handleBooking}>
-                                Забронировать
-                            </button>
+                                <div className="schedule-price">
+                                    {date.price} ₽
+                                </div>
 
-                        </div>
-                    );
-                })
+                                <div className="schedule-slots">
+                                    {available > 0
+                                        ? `Осталось мест: ${available}`
+                                        : "Нет мест"}
+                                </div>
+
+                                <button
+                                    disabled={available === 0}
+                                    onClick={() => handleBooking(date.tourDateId)}
+                                >
+                                    Забронировать
+                                </button>
+
+                            </div>
+                        );
+                    })}
+
+                </div>
             )}
 
         </div>
-    )
+    );
 }

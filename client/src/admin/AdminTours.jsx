@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../styles/admin/AdminTours.css";
 
 export default function AdminTours() {
 
@@ -48,17 +49,21 @@ export default function AdminTours() {
     }
 
     function handleTourChange(e) {
-        setTourForm({
-            ...tourForm,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+
+        setTourForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
     }
 
     function handleDateChange(e) {
-        setDateForm({
-            ...dateForm,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+
+        setDateForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
     }
 
     function resetTourForm() {
@@ -80,8 +85,6 @@ export default function AdminTours() {
         });
         setEditingDateId(null);
     }
-
-    // ===== TOURS =====
 
     async function createTour() {
         await fetch('/api/tours', {
@@ -122,14 +125,8 @@ export default function AdminTours() {
     function handleTourSubmit(e) {
         e.preventDefault();
 
-        if (editingTourId) {
-            updateTour();
-        } else {
-            createTour();
-        }
+        editingTourId ? updateTour() : createTour();
     }
-
-    // ===== DATES =====
 
     async function createDate() {
 
@@ -159,26 +156,11 @@ export default function AdminTours() {
         setEditingDateId(date.tourDateId);
 
         setDateForm({
-            start_date: date.startDate,
-            end_date: date.endDate,
+            start_date: date.startDate ? date.startDate.split('T')[0] : '',
+            end_date: date.endDate ? date.endDate.split('T')[0] : '',
             price: date.price,
             total_slots: date.total_slots
         });
-    }
-
-    async function updateTourStatus(id, is_active) {
-
-        await fetch(`/api/tours/${id}/status`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                is_active
-            })
-        });
-
-        fetchTours();
     }
 
     function handleDateSubmit(e) {
@@ -186,20 +168,25 @@ export default function AdminTours() {
 
         if (!selectedTourId) return;
 
-        if (editingDateId) {
-            updateDate();
-        } else {
-            createDate();
-        }
+        editingDateId ? updateDate() : createDate();
+    }
+
+    async function updateTourStatus(id, is_active) {
+        await fetch(`/api/tours/${id}/status`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ is_active })
+        });
+
+        fetchTours();
     }
 
     return (
-        <div className="adminTours">
+        <div className="admin-tours">
 
             <h1>Админка: Туры</h1>
 
-            {/* ===== TOUR FORM ===== */}
-            <form onSubmit={handleTourSubmit}>
+            <form className="admin-tours-form" onSubmit={handleTourSubmit}>
 
                 <select name="city_id" value={tourForm.city_id} onChange={handleTourChange}>
                     <option value="">Город</option>
@@ -222,10 +209,10 @@ export default function AdminTours() {
 
             </form>
 
-            {/* ===== TOURS LIST ===== */}
             <h2>Список туров</h2>
 
-            <table>
+            <table className="admin-tours-table">
+
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -233,75 +220,51 @@ export default function AdminTours() {
                         <th>Город</th>
                         <th>Дней</th>
                         <th>Статус</th>
-                        <th>Действия</th>
+                        <th>Действие</th>
                     </tr>
                 </thead>
 
                 <tbody>
-
                     {tours.map(tour => (
-
                         <tr key={tour.id}>
-
                             <td>{tour.id}</td>
-
                             <td>{tour.name}</td>
-
                             <td>{tour.cityName}</td>
-
                             <td>{tour.duration_days}</td>
 
                             <td>
-
                                 <select
                                     value={tour.is_active}
                                     onChange={(e) =>
-                                        updateTourStatus(
-                                            tour.id,
-                                            Number(e.target.value)
-                                        )
+                                        updateTourStatus(tour.id, Number(e.target.value))
                                     }
                                 >
-
-                                    <option value={1}>
-                                        Активен
-                                    </option>
-
-                                    <option value={0}>
-                                        Неактивен
-                                    </option>
-
+                                    <option value={1}>Активен</option>
+                                    <option value={0}>Неактивен</option>
                                 </select>
-
                             </td>
 
                             <td>
-
-                                <button
-                                    onClick={() => editTour(tour)}
-                                >
+                                <button onClick={() => editTour(tour)}>
                                     Открыть / Изменить
                                 </button>
-
                             </td>
-
                         </tr>
-
                     ))}
-
                 </tbody>
+
             </table>
 
             {selectedTourId && (
-                <div>
+                <div className="admin-dates">
 
                     <h2>Даты тура</h2>
 
-                    <form onSubmit={handleDateSubmit}>
+                    <form className="admin-dates-form" onSubmit={handleDateSubmit}>
 
-                        <input type="date" name="start_date" value={dateForm.start_date ? dateForm.start_date.split('T')[0] : ''} onChange={handleDateChange} />
+                        <input type="date" name="start_date" value={dateForm.start_date} onChange={handleDateChange} />
 
-                        <input type="date" name="end_date" value={dateForm.end_date ? dateForm.end_date.split('T')[0] : ''} onChange={handleDateChange} />
+                        <input type="date" name="end_date" value={dateForm.end_date} onChange={handleDateChange} />
 
                         <input type="number" name="price" placeholder="Цена" value={dateForm.price} onChange={handleDateChange} />
 
@@ -313,7 +276,8 @@ export default function AdminTours() {
 
                     </form>
 
-                    <table>
+                    <table className="admin-dates-table">
+
                         <thead>
                             <tr>
                                 <th>Начало</th>
@@ -326,7 +290,6 @@ export default function AdminTours() {
 
                         <tbody>
                             {dates.map(d => {
-
                                 const available = d.total_slots - d.booked_slots;
 
                                 return (
@@ -344,6 +307,7 @@ export default function AdminTours() {
                                 );
                             })}
                         </tbody>
+
                     </table>
 
                 </div>

@@ -1,0 +1,58 @@
+.tour-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+}
+
+.tour-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.tour-title {
+    margin: 0;
+    font-size: 20px;
+    color: #1e3a5f;
+}
+
+.tour-city {
+    color: #666;
+    font-size: 14px;
+}
+
+.tour-duration {
+    color: #444;
+    font-size: 14px;
+}
+
+.tour-price {
+    margin-top: auto;
+    font-weight: 600;
+}
+
+.tour-desc {
+    color: #777;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.tour-btn {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    background: #1e3a5f;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.tour-btn:hover {
+    background: #29527f;
+}

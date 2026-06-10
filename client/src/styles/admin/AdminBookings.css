@@ -1,0 +1,50 @@
+.admin-bookings {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.admin-bookings h1 {
+    color: #1e3a5f;
+    margin-bottom: 20px;
+}
+
+.admin-bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.admin-bookings-table th,
+.admin-bookings-table td {
+    padding: 12px;
+    font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+}
+
+.admin-bookings-table th {
+    background: #f5f7fa;
+    color: #1e3a5f;
+}
+
+.admin-bookings-table tr:hover {
+    background: #fafafa;
+}
+
+.admin-bookings-table select {
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    cursor: pointer;
+    background: white;
+}
+
+.admin-bookings-status {
+    font-weight: 600;
+}

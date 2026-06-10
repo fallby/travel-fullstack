@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
-import Kaliningrad1 from "../img/cities/Kaliningrad/Kaliningrad1.jpg";
-import Moscow1 from "../img/cities/Moscow/Moscow1.webp";
-import Kazan1 from "../img/cities/Kazan/Kazan1.webp";
-import Sochi1 from "../img/cities/Sochi/Sochi1.jpg";
-import Chelyabinsk2 from "../img/cities/Chelyabinsk/Chelyabinsk2.jpg";
+import Kaliningrad1 from "../img/cities/Калининград, Калининградская область/Kaliningrad1.jpg";
+import Moscow1 from "../img/cities/Москва, Московская область/Moscow1.webp";
+import Kazan1 from "../img/cities/Казань, Татарстан/Kazan1.webp";
+import Sochi1 from "../img/cities/Сочи, Краснодарский край/Sochi1.jpg";
+import Chelyabinsk2 from "../img/cities/Челябинск, Челябинская область/Chelyabinsk2.jpg";
 import logo from "../img/logo.png";
 
 export default function Home() {
@@ -32,22 +32,22 @@ export default function Home() {
         <h2>Популярные направления</h2>
 
         <div className="cities-grid">
-          <div className="city-card">
+          <div className="popular-city-card">
             <img src={Moscow1} />
             <h3>Москва</h3>
           </div>
 
-          <div className="city-card">
+          <div className="popular-city-card">
             <img src={Kazan1} />
             <h3>Казань</h3>
           </div>
 
-          <div className="city-card">
+          <div className="popular-city-card">
             <img src={Sochi1} />
             <h3>Сочи</h3>
           </div>
 
-          <div className="city-card">
+          <div className="popular-city-card">
             <img src={Kaliningrad1} />
             <h3>Калининград</h3>
           </div>
@@ -94,9 +94,10 @@ export default function Home() {
 
       <section className="request">
         <h2>Готовы отправиться в путешествие?</h2>
-        <p>Оставьте заявку — мы подберём идеальный тур</p>
+        <Link to="/tours">
+          <button className="request-btn">Смотреть туры</button>
+        </Link>
 
-        <button className="request-btn">Оставить заявку</button>
       </section>
 
       <section className="contacts">
@@ -116,7 +117,7 @@ export default function Home() {
         <div className="footer-links">
           <Link to="/">Главная</Link>
           <Link to="/tours">Туры</Link>
-          <Link to="/cities">Города</Link> 
+          <Link to="/cities">Города</Link>
         </div>
 
         <small>© 2026 Все права защищены</small>

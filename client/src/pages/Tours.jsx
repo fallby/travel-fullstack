@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import TourCard from "../components/TourCard";
+import "../styles/Tours.css";
 
 export default function Tours() {
     const [error, setError] = useState(null);
@@ -10,7 +11,7 @@ export default function Tours() {
         async function fetchData() {
             try {
                 setIsLoading(true);
-                
+
                 const response = await fetch('/api/tours');
 
                 if (!response.ok) {
@@ -18,36 +19,31 @@ export default function Tours() {
                 }
 
                 const data = await response.json();
-                console.log(data);
                 setTours(data.tours);
                 setError(null);
+
             } catch (err) {
                 setError(err.message);
             } finally {
                 setIsLoading(false);
             }
         }
+
         fetchData();
+    }, []);
 
-    }, [])
-    // https://max-gabov.ru/urok-14-useeffect-dlya-raboty-s-api-v-react/
-
-    if (isLoading) {
-        console.log(tours);
-        return <div>Загружаем список туров...</div>;
-    }
-
-    if (error) {
-        return <div>Ошибка: {error}</div>;
-    }
+    if (isLoading) return <div className="loading">Загружаем список туров...</div>;
+    if (error) return <div className="error">{error}</div>;
 
     return (
-        <div>
-            <main>
-                {tours.map((tour) => ( 
-                    <TourCard key={tour.id} tour={tour}/>
+        <div className="tours-page">
+            <h1 className="tours-title">Все туры</h1>
+
+            <div className="tours-grid">
+                {tours.map(tour => (
+                    <TourCard key={tour.id} tour={tour} />
                 ))}
-            </main>
+            </div>
         </div>
-    )
+    );
 }

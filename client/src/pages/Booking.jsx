@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "../styles/Booking.css";
 
 export default function Booking() {
 
@@ -20,28 +21,26 @@ export default function Booking() {
     });
 
     useEffect(() => {
-        async function fetchDates() {
-            const response = await fetch(`/api/tours/${id}/dates`);
-            const data = await response.json();
-            setSchedule(data.tour);
+        async function fetchData() {
+            try {
+                const [tourRes, datesRes] = await Promise.all([
+                    fetch(`/api/tours/${id}`),
+                    fetch(`/api/tours/${id}/dates`)
+                ]);
+
+                const tourData = await tourRes.json();
+                const datesData = await datesRes.json();
+
+                setTour(tourData.tour[0]);
+                setSchedule(datesData.tour);
+
+            } catch (err) {
+                setServerError("Ошибка загрузки данных");
+            }
         }
 
-        fetchDates();
+        fetchData();
     }, [id]);
-
-    useEffect(() => {
-        async function fetchTour() {
-            const response = await fetch(`/api/tours/${id}`);
-            const data = await response.json();
-            setTour(data.tour[0]);
-        }
-
-        fetchTour();
-    }, [id]);
-
-    if (!tour) {
-        return <div>Загрузка...</div>;
-    }
 
     function handleChange(event) {
         setForm({
@@ -60,7 +59,7 @@ export default function Booking() {
         return errors;
     }
 
-    async function booking(form) {
+    async function bookingRequest(form) {
 
         setIsLoading(true);
 
@@ -92,7 +91,11 @@ export default function Booking() {
             return;
         }
 
-        booking(form);
+        bookingRequest(form);
+    }
+
+    if (!tour) {
+        return <div>Загрузка...</div>;
     }
 
     return (
@@ -102,17 +105,29 @@ export default function Booking() {
 
             {serverError && <div>{serverError}</div>}
 
-            <form onSubmit={handleSubmit} className="booking_form">
+            <form onSubmit={handleSubmit}>
 
                 <h2>{tour.tourName}</h2>
 
-                <input name="name" placeholder="Имя" onChange={handleChange} />
+                <input
+                    name="name"
+                    placeholder="Имя"
+                    onChange={handleChange}
+                />
                 {error.name && <div>{error.name}</div>}
 
-                <input name="phone" placeholder="Телефон" onChange={handleChange} />
+                <input
+                    name="phone"
+                    placeholder="Телефон"
+                    onChange={handleChange}
+                />
                 {error.phone && <div>{error.phone}</div>}
 
-                <select name="tour_date_id" onChange={handleChange}>
+                <select
+                    name="tour_date_id"
+                    value={form.tour_date_id}
+                    onChange={handleChange}
+                >
                     <option value="">Выберите дату</option>
 
                     {schedule.map((date) => {
@@ -133,7 +148,10 @@ export default function Booking() {
 
                 {error.tour_date_id && <div>{error.tour_date_id}</div>}
 
-                <textarea name="comment" onChange={handleChange} />
+                <textarea
+                    name="comment"
+                    onChange={handleChange}
+                />
 
                 <button type="submit" disabled={isLoading}>
                     {isLoading ? "Бронируем..." : "Забронировать"}
