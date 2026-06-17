@@ -184,7 +184,7 @@ export default function AdminTours() {
     return (
         <div className="admin-tours">
 
-            <h1>Админка: Туры</h1>
+            <h1>Туры</h1>
 
             <form className="admin-tours-form" onSubmit={handleTourSubmit}>
 

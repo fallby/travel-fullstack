@@ -47,10 +47,10 @@ export default function Home() {
             <h3>Сочи</h3>
           </div>
 
-          <div className="popular-city-card">
+          {/* <div className="popular-city-card">
             <img src={Kaliningrad1} />
             <h3>Калининград</h3>
-          </div>
+          </div> */}
         </div>
       </section>
 
